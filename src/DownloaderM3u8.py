@@ -38,12 +38,9 @@ class DlM3u8(Downloader):
                  stopDownloadEvent,
                  progressFnct):
         self.m3u8Url = m3u8Url
-        super(DlM3u8, self).__init__(outDir, codeProgramme, timeStamp, "t.ts",
+        super(DlM3u8, self).__init__(outDir, codeProgramme, timeStamp, "ts",
                                      navigateur, stopDownloadEvent, progressFnct)
         self.historique = Historique()
-
-        self.nomFichierFinal = "%s.mkv" % (self.nomFichier[:-3]) # à changer!
-
 
     def telecharger(self):
         # Récupère le fichier master.m3u8
@@ -59,12 +56,9 @@ class DlM3u8(Downloader):
         # Si la vidéo est dans l'historique
         if(video is not None):
             # Si la vidéo existe sur le disque
-            if(os.path.exists(self.nomFichier) or
-               os.path.exists(self.nomFichierFinal)): # à changer? ←convertir
+            if(os.path.exists(self.nomFichier)): # à vérifier ←convertir
                 if(video.finie):
                     logger.info("La vidéo a déjà été entièrement téléchargée")
-                    if(not os.path.exists(self.nomFichierFinal)):
-                        self.convertir()
                     return
                 else:
                     self.ouvrirVideoExistante()
