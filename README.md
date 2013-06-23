@@ -1,4 +1,4 @@
-# Pluzzdl
+# ReplayDlR
 
 ReplayDlR is a Python script (forked from Pluzzdl) used to fetch free VOD
 videos from french TV replay sites like 
