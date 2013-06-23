@@ -1,104 +1,139 @@
 
-src/ColorFormatter.py,99
-class ColorFormatter(10,204
-	def __init__(29,703
-	def formatter_msg(34,851
-	def format(41,1073
+src/ColorFormatter.py,108
+class ColorFormatter(10,203
+    def __init__(29,806
+    def formatter_msg(34,969
+    def format(41,1218
 
-src/Configuration.py,178
-def resourcePath(20,189
-class Configuration(31,387
-	def __init__(33,419
-	def __getitem__(61,1880
-	def __setitem__(67,2010
-	def readConfig(70,2083
-	def writeConfig(80,2439
+src/Configuration.py,193
+def resourcePath(20,187
+class Configuration(31,396
+    def __init__(33,426
+    def __getitem__(61,2042
+    def __setitem__(67,2197
+    def readConfig(70,2275
+    def writeConfig(80,2695
 
-src/Historique.py,262
-class Video(19,203
-	def __init__(21,229
-	def __eq__(27,403
-	def __ne__(33,537
-class Historique(36,603
-	def __init__(38,634
-	def __del__(54,1210
-	def charger(57,1252
-	def sauver(70,1761
-	def nettoyer(79,2057
-	def ajouter(85,2332
-	def getVideo(92,2547
+src/Downloader.py,251
+class DownloaderException(22,385
+class Downloader(28,494
+    def __init__(32,578
+    def ouvrirNouvelleVideo(35,679
+    def ouvrirVideoExistante(45,999
+    def telecharger(55,1321
+    def convertir(61,1460
+    def checkExternalProgram(79,2477
 
-src/Navigateur.py,111
-class Navigateur:Navigateur22,206
-	def __init__(34,1182
-	def getFichier(52,1984
-	def appendCookie(71,2532
+src/DownloaderCurl.py,74
+class DlCurl(22,398
+    def __init__(27,477
+    def telecharger(39,853
 
-src/PluzzDL.py,944
-class PluzzDL(42,657
-	def __init__(53,1230
-	def getId(115,3857
-	def parseInfos(127,4219
-	def getNomFichier(148,5248
-	def telechargerSousTitres(154,5532
-class PluzzDLException(204,7735
-class PluzzDLM3U8(211,7819
-	def __init__(216,7890
-	def ouvrirNouvelleVideo(227,8245
-	def ouvrirVideoExistante(239,8557
-	def creerMKV(249,8825
-	def telecharger(267,9644
-class PluzzDLF4M(325,11907
-	def __init__(332,12056
-	def parseManifest(344,12520
-	def ouvrirNouvelleVideo(364,13343
-	def ouvrirVideoExistante(379,13910
-	def decompressSWF(389,14178
-	def getPlayerHash(407,14608
-	def debutVideo(420,15082
-	def telecharger(435,15578
-class PluzzDLRTMP(521,19334
-	def __init__(526,19405
-	def telecharger(529,19462
-class PluzzDLMMS(533,19601
-	def __init__(538,19670
-	def telecharger(541,19725
-class PluzzDLInfosHandler(544,19867
-	def __init__(549,19997
-	def startElement(557,20153
-	def characters(569,20501
-	def endElement(586,20993
+src/DownloaderF4m.py,235
+class DlF4m(30,523
+    def __init__(37,683
+    def parseManifest(56,1365
+    def ouvrirNouvelleVideo(81,2403
+    def decompressSWF(99,3084
+    def getPlayerHash(117,3596
+    def debutVideo(130,4129
+    def telecharger(145,4722
 
-src/socks.py,782
-class ProxyError(43,1757
-	def __init__(44,1787
-	def __str__(46,1838
-class GeneralProxyError(49,1888
-	def __init__(50,1926
-	def __str__(52,1977
-class Socks5AuthError(55,2027
-	def __init__(56,2063
-	def __str__(58,2114
-class Socks5Error(61,2164
-	def __init__(62,2196
-	def __str__(64,2247
-class Socks4Error(67,2297
-	def __init__(68,2329
-	def __str__(70,2380
-class HTTPError(73,2430
-	def __init__(74,2460
-	def __str__(76,2511
-def setdefaultproxy(109,3485
-class socksocket(117,3853
-	def __init__(125,4151
-	def __recvall(134,4487
-	def setproxy(144,4790
-	def __negotiatesocks5(163,5758
-	def getproxysockname(255,9048
-	def getproxypeername(261,9217
-	def getpeername(267,9385
-	def __negotiatesocks4(274,9602
-	def __negotiatehttp(322,11300
-	def connect(353,12425
+src/DownloaderM3u8.py,74
+class DlM3u8(21,377
+    def __init__(26,456
+    def telecharger(43,936
+
+src/DownloaderMms.py,73
+class DlMms(18,347
+    def __init__(23,424
+    def telecharger(26,486
+
+src/DownloaderRtmp.py,104
+class DlRtmp(23,410
+    def __init__(31,580
+    def telecharger(43,956
+    def rtmpDownload(53,1428
+
+src/Historique.py,292
+class Video(19,182
+    def __init__(21,204
+    def __eq__(27,397
+    def __ne__(33,552
+class Historique(36,620
+    def __init__(38,647
+    def __del__(54,1312
+    def charger(57,1358
+    def sauver(70,1953
+    def nettoyer(79,2291
+    def ajouter(85,2580
+    def getVideo(92,2825
+
+src/Navigateur.py,120
+class Navigateur:Navigateur24,232
+    def __init__(36,1338
+    def getFichier(55,2282
+    def appendCookie(79,3233
+
+src/PluzzDl.py,317
+class PluzzDl(33,574
+    def __init__(44,1179
+    def getInfos(56,1827
+    def getId(67,2238
+    def parseInfos(77,2582
+    def telechargerSousTitres(105,4317
+class PluzzDLInfosHandler(155,6914
+    def __init__(160,7052
+    def startElement(168,7239
+    def characters(180,7649
+    def endElement(197,8253
+
+src/ReplayDl.py,179
+class ReplayDlException(33,677
+class ReplayDl(40,774
+    def __init__(45,869
+    def getInfos(125,4474
+    def getNomFichier(137,4835
+    def telechargerSousTitres(144,5305
+
+src/WatDl.py,162
+class WatDl(37,649
+    def __init__(44,827
+    def getInfos(62,1719
+    def getJsonInfos(113,4175
+    def getWat(156,5959
+        def base36encode(160,6080
+
+src/socks.py,852
+class ProxyError(44,1738
+    def __init__(45,1767
+    def __str__(47,1825
+class GeneralProxyError(50,1881
+    def __init__(51,1918
+    def __str__(53,1976
+class Socks5AuthError(56,2032
+    def __init__(57,2067
+    def __str__(59,2125
+class Socks5Error(62,2181
+    def __init__(63,2212
+    def __str__(65,2270
+class Socks4Error(68,2326
+    def __init__(69,2357
+    def __str__(71,2415
+class HTTPError(74,2471
+    def __init__(75,2500
+    def __str__(77,2558
+def setdefaultproxy(110,3640
+class socksocket(118,4021
+    def __init__(126,4332
+    def __recvall(135,4713
+    def setproxy(145,5063
+    def __negotiatesocks5(164,6176
+    def getproxysockname(256,10136
+    def getproxypeername(262,10329
+    def getpeername(268,10521
+    def __negotiatesocks4(275,10767
+    def __negotiatehttp(323,12780
+    def connect(354,14084
 
 src/main.py,0
