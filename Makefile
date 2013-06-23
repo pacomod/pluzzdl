@@ -17,6 +17,8 @@ PLUZZDL_VERSION = $(shell grep '__version__ = ".*"' src/main.py | cut -d '"' -f 
 # Nom du repertoire
 PLUZZDL_REPERTOIRE = pluzzdl-$(PLUZZDL_VERSION)
 
+# Fichiers source
+SRC = ./src/*.py
 
 # Compilation
 build :
@@ -34,11 +36,11 @@ install :
 	$(INSTALL) pluzzdl.sh $(DESTDIR)$(BINDIR)/pluzzdl
 	# Change les droits du fichier (il doit etre executable)
 	chmod a+x $(DESTDIR)$(BINDIR)/pluzzdl
-	
+
 	# Met en place le code
 	mkdir -p $(DESTDIR)$(DATADIR)/pluzzdl
 	$(INSTALL) src/* $(DESTDIR)$(DATADIR)/pluzzdl/
-	
+
 	# Met en place le manpage
 	mkdir -p $(DESTDIR)$(DATADIR)/man/fr/man1/
 	$(INSTALL) pluzzdl.1.gz $(DESTDIR)$(DATADIR)/man/fr/man1/
@@ -63,3 +65,7 @@ tar :
 # Manuel:
 manual :
 	@man -t ./pluzzdl.1 | ps2pdf14 - pluzzdl_manuel.pdf
+
+# etags → emacs
+etags:	$(SRC)
+	etags $(SRC) -o TAGS
