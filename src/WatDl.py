@@ -22,6 +22,12 @@ import json
 import md5
 import locale
 
+# Pour éviter les erreurs:
+# UnicodeEncodeError: 'ascii' codec can't encode character u'\xe9' in position 213: ordinal not in range(128)
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
 from Configuration import Configuration
 from Historique    import Historique, Video
 from Navigateur    import Navigateur
@@ -66,7 +72,7 @@ class WatDl(ReplayDl):
         # Récupère l'id de l'émission
         debut_id = ''
         soup = BeautifulSoup.BeautifulSoup(self.pageHtml) #, from_encoding='utf-8')
-        logger.debug('la soupe: \n%s' % (soup)) # TBR!
+        # logger.debug('la soupe: \n%s' % (soup)) # TBR!
         site = urlparse(self.url).netloc
         if 'tmc.tv' in site or 'tf1.fr' in site:
             debut_id = str(soup.find('div', attrs={'class' : 'unique' }))
@@ -76,7 +82,7 @@ class WatDl(ReplayDl):
         # recherche de la date de diffusion
         if 'nt1.tv' in site:
             dateDiffusion= soup.find('span', attrs={'class' : 'date'}).getText()
-            logger.debug('date=%s' % (dateDiffusion))
+            logger.debug('dateDiffusion=%s' % (dateDiffusion))
             locale.setlocale(locale.LC_TIME, 'fr_FR.utf8')
             self.timeStamp = time.mktime(
                 time.strptime(
@@ -116,7 +122,7 @@ class WatDl(ReplayDl):
         jsonVideoInfos = self.navigateur.getFichier(
             self.WEBROOTWAT+'/interface/contentv3/'+ self.id,
             self.referer)
-        logger.debug('le json: \n%s' % (jsonVideoInfos)) # TBR!
+        # logger.debug('le json: \n%s' % (jsonVideoInfos)) # TBR!
         videoInfos = json.loads(jsonVideoInfos)
         if not self.standardDefinition:
             try:

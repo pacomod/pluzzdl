@@ -18,6 +18,12 @@ import time
 import xml.etree.ElementTree
 import xml.sax
 
+# Pour éviter les erreurs:
+# UnicodeEncodeError: 'ascii' codec can't encode character u'\xe9' in position 213: ordinal not in range(128)
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
 from Configuration import Configuration
 from Historique    import Historique, Video
 from Navigateur    import Navigateur

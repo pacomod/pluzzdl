@@ -9,6 +9,12 @@ import cPickle as pickle
 import datetime
 import os
 
+# Pour éviter les erreurs:
+# UnicodeEncodeError: 'ascii' codec can't encode character u'\xe9' in position 213: ordinal not in range(128)
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
 import logging
 logger = logging.getLogger("replaydlr")
 
