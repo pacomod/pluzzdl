@@ -12,6 +12,12 @@ import shlex
 import time
 import threading
 
+# Pour éviter les erreurs:
+# UnicodeEncodeError: 'ascii' codec can't encode character u'\xe9' in position 213: ordinal not in range(128)
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
 from Configuration import Configuration
 from Historique    import Historique, Video
 from Navigateur    import Navigateur
@@ -30,15 +36,15 @@ class DlRtmp(Downloader):
 
     def __init__(self,
                  lienRtmp,
-                 nomFichier,
+                 outDir,
+                 codeProgramme,
+                 timeStamp,
                  navigateur,
                  stopDownloadEvent,
                  progressFnct):
-        self.nomFichier = nomFichier
-        self.navigateur = navigateur
-        self.stopDownloadEvent = stopDownloadEvent
-        self.progressFnct = progressFnct
         self.lienRtmp = lienRtmp
+        super(DlRtmp, self).__init__(outDir, codeProgramme, timeStamp, "t.flv",
+                                     navigateur, stopDownloadEvent, progressFnct)
 
     def telecharger(self):
         if not self.checkExternalProgram(self.rtmpdumpEx):

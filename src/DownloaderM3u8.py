@@ -10,6 +10,12 @@
 import os
 import re
 
+# Pour éviter les erreurs:
+# UnicodeEncodeError: 'ascii' codec can't encode character u'\xe9' in position 213: ordinal not in range(128)
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
 from Configuration import Configuration
 from Historique    import Historique, Video
 from Navigateur    import Navigateur
@@ -25,19 +31,18 @@ class DlM3u8(Downloader):
 
     def __init__(self,
                  m3u8Url,
-                 nomFichier,
+                 outDir,
+                 codeProgramme,
+                 timeStamp,
                  navigateur,
                  stopDownloadEvent,
                  progressFnct):
         self.m3u8Url = m3u8Url
-        self.nomFichier = nomFichier
-        self.navigateur = navigateur
-        self.stopDownloadEvent = stopDownloadEvent
-        self.progressFnct = progressFnct
-
+        super(DlM3u8, self).__init__(outDir, codeProgramme, timeStamp, "t.ts",
+                                     navigateur, stopDownloadEvent, progressFnct)
         self.historique = Historique()
 
-        self.nomFichierFinal = "%s.mkv" % (self.nomFichier[:-3])
+        self.nomFichierFinal = "%s.mkv" % (self.nomFichier[:-3]) # à changer!
 
 
     def telecharger(self):
@@ -55,7 +60,7 @@ class DlM3u8(Downloader):
         if(video is not None):
             # Si la vidéo existe sur le disque
             if(os.path.exists(self.nomFichier) or
-               os.path.exists(self.nomFichierFinal)):
+               os.path.exists(self.nomFichierFinal)): # à changer? ←convertir
                 if(video.finie):
                     logger.info("La vidéo a déjà été entièrement téléchargée")
                     if(not os.path.exists(self.nomFichierFinal)):
