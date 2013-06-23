@@ -138,7 +138,7 @@ class ReplayDl(object):
         """
         Construit le nom du fichier de sortie
         """
-        logger.critical(os.path.join(repertoire, "%s_%s.%s" % (codeProgramme, datetime.datetime.fromtimestamp(timeStamp).strftime("%Y-%m-%d_%H-%M"), extension))) # TBR!
+        logger.debug(os.path.join(repertoire, "%s_%s.%s" % (codeProgramme, datetime.datetime.fromtimestamp(timeStamp).strftime("%Y-%m-%d_%H-%M"), extension))) # TBR!
         return os.path.join(repertoire, "%s_%s.%s" % (codeProgramme, datetime.datetime.fromtimestamp(timeStamp).strftime("%Y-%m-%d_%H-%M"), extension))
 
     def telechargerSousTitres(self, idEmission, nomChaine, nomVideo):
