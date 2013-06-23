@@ -24,7 +24,7 @@ from DownloaderMms  import DlMms
 from DownloaderCurl import DlCurl
 
 import logging
-logger = logging.getLogger("pluzzdl")
+logger = logging.getLogger("replaydlr")
 
 #
 # Classes

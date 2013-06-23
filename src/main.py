@@ -61,7 +61,7 @@ if(__name__ == "__main__"):
     args = parser.parse_args()
 
     # Mise en place du logger
-    logger = logging.getLogger("pluzzdl")
+    logger = logging.getLogger("replaydlr")
     console = logging.StreamHandler(sys.stdout)
     if(args.verbose):
         logger.setLevel(logging.DEBUG)

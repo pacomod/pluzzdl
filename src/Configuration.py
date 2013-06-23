@@ -11,7 +11,7 @@ import shutil
 import sys
 
 import logging
-logger = logging.getLogger("pluzzdl")
+logger = logging.getLogger("replaydlr")
 
 #
 # Fonction

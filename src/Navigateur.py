@@ -15,7 +15,7 @@ import StringIO
 import gzip
 
 import logging
-logger = logging.getLogger("pluzzdl")
+logger = logging.getLogger("replaydlr")
 
 #
 # Classe

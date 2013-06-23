@@ -17,7 +17,7 @@ from Navigateur    import Navigateur
 from Downloader    import Downloader, DownloaderException
 
 import logging
-logger = logging.getLogger("pluzzdl")
+logger = logging.getLogger("replaydlr")
 
 class DlCurl(Downloader):
     """

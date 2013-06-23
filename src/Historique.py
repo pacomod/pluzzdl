@@ -10,7 +10,7 @@ import datetime
 import os
 
 import logging
-logger = logging.getLogger("pluzzdl")
+logger = logging.getLogger("replaydlr")
 
 #
 # Classes

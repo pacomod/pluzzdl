@@ -17,7 +17,7 @@ from Historique    import Historique, Video
 from Navigateur    import Navigateur
 
 import logging
-logger = logging.getLogger("pluzzdl")
+logger = logging.getLogger("replaydlr")
 
 class DownloaderException(Exception):
     """

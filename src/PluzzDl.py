@@ -24,7 +24,7 @@ from Navigateur    import Navigateur
 from ReplayDl      import ReplayDl, ReplayDlException
 
 import logging
-logger = logging.getLogger("pluzzdl")
+logger = logging.getLogger("replaydlr")
 
 #
 # Classes
