@@ -82,16 +82,16 @@ class ReplayDl(object):
         if self.drm == "oui":
             logger.warning("La vidéo possède un DRM; elle sera sans doute illisible.")
         # Le téléchargement s'effectue en fonction du type de lien disponible
-        if self.manifestUrl is not None:
-            downloader = DlF4m(self.manifestUrl, self.manifestUrlToken,
-                               outDir, self.codeProgramme, self.timeStamp,
-                               self.navigateur,
-                               stopDownloadEvent, progressFnct)
-        elif self.m3u8Url is not None:
+        if self.m3u8Url is not None:
             downloader = DlM3u8(self.m3u8Url,
                                 outDir, self.codeProgramme, self.timeStamp,
                                 self.navigateur,
                                 stopDownloadEvent, progressFnct)
+        elif self.manifestUrl is not None:
+            downloader = DlF4m(self.manifestUrl, self.manifestUrlToken,
+                               outDir, self.codeProgramme, self.timeStamp,
+                               self.navigateur,
+                               stopDownloadEvent, progressFnct)
         elif self.lienRtmp is not None:
             downloader = DlRtmp(self.lienRtmp,
                                 outDir, self.codeProgramme, self.timeStamp,

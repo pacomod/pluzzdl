@@ -56,7 +56,7 @@ class DlM3u8(Downloader):
         # Si la vidéo est dans l'historique
         if(video is not None):
             # Si la vidéo existe sur le disque
-            if(os.path.exists(self.nomFichier)): # à vérifier ←convertir
+            if(os.path.exists(self.nomFichier)):
                 if(video.finie):
                     logger.info("La vidéo a déjà été entièrement téléchargée")
                     return
@@ -87,7 +87,6 @@ class DlM3u8(Downloader):
                 self.progressFnct(100)
                 self.telechargementFini = True
                 logger.info("Fin du téléchargement")
-                self.convertir()
         except KeyboardInterrupt:
             logger.info("Interruption clavier")
         except Exception as inst:
