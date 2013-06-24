@@ -93,7 +93,7 @@ class ReplayDl(object):
                                self.navigateur,
                                stopDownloadEvent, progressFnct)
         elif self.lienRtmp is not None:
-            downloader = DlRtmp(self.lienRtmp,
+            downloader = DlRtmp(self.lienRtmp, self.swfPlayerUrl,
                                 outDir, self.codeProgramme, self.timeStamp,
                                 self.navigateur,
                                 stopDownloadEvent, progressFnct)

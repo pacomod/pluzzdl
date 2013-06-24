@@ -1,11 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
-# Notes :
-#    -> Filtre Wireshark :
-#          http.host contains "ftvodhdsecz" or http.host contains "francetv" or http.host contains "pluzz"
-#    ->
-
 #
 # Modules
 #
@@ -62,6 +57,7 @@ class WatDl(ReplayDl):
         self.standardDefinition = False
         self.listOfIds = []
         self.referer = None
+        self.swfPlayerUrl = 'http://www.wat.tv/images/v60/PlayerWat.swf'
         super(WatDl, self).__init__(url, proxy, proxySock, sousTitres,
                                     progressFnct, stopDownloadEvent, outDir)
 
@@ -71,14 +67,15 @@ class WatDl(ReplayDl):
         """
         # Récupère l'id de l'émission
         debut_id = ''
-        soup = BeautifulSoup.BeautifulSoup(self.pageHtml) #, from_encoding='utf-8')
+        soup = BeautifulSoup.BeautifulSoup(self.pageHtml)
         # logger.debug('la soupe: \n%s' % (soup)) # TBR!
         site = urlparse(self.url).netloc
         if 'tmc.tv' in site or 'tf1.fr' in site:
             debut_id = str(soup.find('div', attrs={'class' : 'unique' }))
             
         if 'nt1.tv' in site or 'hd1.tv' in site:
-            debut_id = str(soup.find('section', attrs={'class' : 'player-unique' }))
+            debut_id = str(soup.find('section',
+                                     attrs={'class' : 'player-unique' }))
         # recherche de la date de diffusion
         if 'nt1.tv' in site:
             dateDiffusion= soup.find('span', attrs={'class' : 'date'}).getText()
@@ -87,12 +84,12 @@ class WatDl(ReplayDl):
             self.timeStamp = time.mktime(
                 time.strptime(
                     soup.find('span', attrs={'class' : 'date'}).getText(),
-                    "Le %d %b %Y \xe0 %Hh%M")) # \xe0 # ou "%d %B %Y à %Hh%M"? <juillet
-            # S'il n'y a pas moyen de corriger le pb d'encodage
-            # passer par le json (paske ça commence à saouler!)
+                    "Le %d %b %Y \xe0 %Hh%M")) # ou "%d %B %Y à %Hh%M"? <juillet
         elif 'tf1.fr' in site:
             # →TBR!
-            dateDiffusion = soup.find('meta', attrs={'property' : 'video:release_date'}).get('content')
+            dateDiffusion = soup.find(
+                'meta',
+                attrs={'property' : 'video:release_date'}).get('content')
             logger.debug('date=%s' % (dateDiffusion))
             # ←TBR!
             locale.setlocale(locale.LC_TIME, 'fr_FR.utf8')
@@ -108,10 +105,8 @@ class WatDl(ReplayDl):
                 time.strptime(
                     soup.find('span', attrs={'class' : 'date'}).getText(),
                     'Le %d %b %Y \xe0 %Hh%M')) # ou "%d %B %Y à %Hh%M"? <juillet
-            
         elif 'tmc.tv' in site:  # → dans le json
             pass
-        
         self.id = [x.strip() for x in re.findall("mediaId :([^,]*)",
                                                  debut_id)][0]
         self.referer = [x.strip() for x in re.findall('url : "(.*?)"',

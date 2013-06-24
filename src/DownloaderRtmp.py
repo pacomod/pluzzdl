@@ -31,11 +31,11 @@ class DlRtmp(Downloader):
     Téléchargement des liens rtmp
     """
 
-    swfPlayerUrl = 'http://www.wat.tv/images/v60/PlayerWat.swf'
     rtmpdumpEx='rtmpdump'
 
     def __init__(self,
                  lienRtmp,
+                 swfPlayerUrl,
                  outDir,
                  codeProgramme,
                  timeStamp,
@@ -43,6 +43,7 @@ class DlRtmp(Downloader):
                  stopDownloadEvent,
                  progressFnct):
         self.lienRtmp = lienRtmp
+        self.swfPlayerUrl = swfPlayerUrl
         super(DlRtmp, self).__init__(outDir, codeProgramme, timeStamp, "t.flv",
                                      navigateur, stopDownloadEvent, progressFnct)
 
