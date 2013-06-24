@@ -3,8 +3,8 @@
 
 # Notes :
 #    -> Filtre Wireshark :
-#          http.host contains "ftvodhdsecz" or http.host contains "francetv" or http.host contains "pluzz"
-#    ->
+# http.host contains "ftvodhdsecz" or http.host contains "francetv"
+# or http.host contains "pluzz"
 
 #
 # Modules
@@ -44,7 +44,7 @@ class PluzzDl(ReplayDl):
     REGEX_ID = "http://info.francetelevisions.fr/\?id-video=([^\"]+)"
     XML_DESCRIPTION = "http://www.pluzz.fr/appftv/webservices/video/getInfosOeuvre.php?mode=zeri&id-diffusion=_ID_EMISSION_"
     URL_SMI = "http://www.pluzz.fr/appftv/webservices/video/getFichierSmi.php?smi=_CHAINE_/_ID_EMISSION_.smi&source=azad"
-    M3U8_LINK = "http://medias2.francetv.fr/catchup-mobile/france-dom-tom/non-token/non-drm/m3u8/_FILE_NAME_.m3u8"
+#    M3U8_LINK = "http://medias2.francetv.fr/catchup-mobile/france-dom-tom/non-token/non-drm/m3u8/_FILE_NAME_.m3u8"
     REGEX_M3U8 = "/([0-9]{4}/S[0-9]{2}/J[0-9]{1}/[0-9]*-[0-9]{6,8})-"
 
     def __init__(self,
@@ -66,7 +66,8 @@ class PluzzDl(ReplayDl):
         # Récupère l'id de l'émission
         self.getId()
         # Récupère la page d'infos de l'émission
-        pageInfos = self.navigateur.getFichier(self.XML_DESCRIPTION.replace("_ID_EMISSION_", self.id))
+        pageInfos = self.navigateur.getFichier(
+            self.XML_DESCRIPTION.replace("_ID_EMISSION_", self.id))
         # Parse la page d'infos
         self.parseInfos(pageInfos)
 
@@ -74,11 +75,8 @@ class PluzzDl(ReplayDl):
         """
         Récupère l'ID de la vidéo à partir de son URL
         """
-        # try:
         self.id = re.findall(self.REGEX_ID, self.pageHtml)[0]
         logger.debug("ID de l'émission: %s" % (self.id))
-        # except:
-        #     raise ReplayDlException("Impossible de récupérer l'ID de l'émission")
 
     def parseInfos(self, pageInfos):
         """
@@ -91,13 +89,16 @@ class PluzzDl(ReplayDl):
             if(self.m3u8Url is None):
                 logger.debug("m3u8Url file missing, we will try to guess it")
                 if(self.manifestUrl is not None):
-                    # Vérifie si le lien du manifest contient la chaîne "media-secure"
+                    # Vérifie si le lien du manifest contient la chaîne
+                    # "media-secure"
                     if(self.manifestUrl.find("media-secure") != -1):
                         self.drm = True
-                        #raise ReplayDlException("pluzzdl ne sait pas gérer ce type de vidéo (utilisation de DRMs)...")
                     # Lien du manifest (après le token)
-                    self.manifestUrlToken = self.navigateur.getFichier("http://hdfauth.francetv.fr/esi/urltokengen2.html?url=%s" % (self.manifestUrl[self.manifestUrl.find("/z/") :]))
-                    self.m3u8Url = self.manifestUrl.replace("manifest.f4m", "index_2_av.m3u8")
+                    self.manifestUrlToken = self.navigateur.getFichier(
+                        "http://hdfauth.francetv.fr/esi/urltokengen2.html?url=%s" % (
+                            self.manifestUrl[self.manifestUrl.find("/z/") :]))
+                    self.m3u8Url = self.manifestUrl.replace(
+                        "manifest.f4m", "index_2_av.m3u8")
                     self.m3u8Url = self.m3u8Url.replace("/z/", "/i/")
                 #self.m3u8Url = self.M3U8_LINK.replace("_FILE_NAME_", re.findall(self.REGEX_M3U8, pageInfos)[0])
             logger.debug("URL m3u8: %s" % (self.m3u8Url))
@@ -106,13 +107,16 @@ class PluzzDl(ReplayDl):
             logger.debug("Lien MMS: %s" % (self.lienMms))
             logger.debug("Utilisation de DRM: %s" % (self.drm))
         except:
-            raise ReplayDlException("Impossible de parser le fichier XML de l'émission")
+            raise ReplayDlException(
+                "Impossible de parser le fichier XML de l'émission")
 
     def telechargerSousTitres(self, idEmission, nomChaine, nomVideo):
         """
         Récupère le fichier de sous-titres de la vidéo
         """
-        urlSousTitres = self.URL_SMI.replace("_CHAINE_", nomChaine.lower().replace(" ", "")).replace("_ID_EMISSION_", idEmission)
+        urlSousTitres = self.URL_SMI.replace(
+            "_CHAINE_", nomChaine.lower().replace(" ", "")).replace(
+            "_ID_EMISSION_", idEmission)
         # Essaye de récupérer les sous-titres
         try:
             sousTitresSmi = self.navigateur.getFichier(urlSousTitres)
@@ -127,7 +131,8 @@ class PluzzDl(ReplayDl):
             with open("%s.smi" % (nomFichierSansExtension), "w") as f:
                 f.write(sousTitresSmi)
         except:
-            raise ReplayDlException("Impossible d'écrire dans le répertoire %s" % (os.getcwd()))
+            raise ReplayDlException(
+                "Impossible d'écrire dans le répertoire %s" % (self.outdir))
         logger.debug("Fichier de sous-titres smi enregistré")
         # Convertit le fichier de sous-titres en srt
         try:
@@ -135,17 +140,26 @@ class PluzzDl(ReplayDl):
                 pageSoup = BeautifulSoup.BeautifulSoup(sousTitresSmi)
                 elmts = pageSoup.findAll("sync")
                 indice = 1
-                for (elmtDebut, elmtFin) in (elmts[i: i + 2] for i in range(0, len(elmts), 2)):
+                for (elmtDebut, elmtFin) in (elmts[i: i + 2] for i in range(
+                        0, len(elmts), 2)):
                     # Extrait le temps de début et le texte
                     tempsEnMs = int(elmtDebut["start"])
-                    tempsDebutSrt = time.strftime("%H:%M:%S,XXX", time.gmtime(int(tempsEnMs / 1000)))
-                    tempsDebutSrt = tempsDebutSrt.replace("XXX", str(tempsEnMs)[-3 :])
+                    tempsDebutSrt = time.strftime(
+                        "%H:%M:%S,XXX",
+                        time.gmtime(int(tempsEnMs / 1000)))
+                    tempsDebutSrt = tempsDebutSrt.replace("XXX",
+                                                          str(tempsEnMs)[-3 :])
                     lignes = elmtDebut.p.findAll("span")
-                    texte = "\n".join(map(lambda x: x.contents[0].strip(), lignes))
+                    texte = "\n".join(map(lambda x: x.contents[0].strip(),
+                                          lignes))
                     # Extrait le temps de fin
                     tempsEnMs = int(elmtFin["start"])
-                    tempsFinSrt = time.strftime("%H:%M:%S,XXX", time.gmtime(int(tempsEnMs / 1000)))
-                    tempsFinSrt = tempsFinSrt.replace("XXX", str(tempsEnMs)[-3 :])
+                    tempsFinSrt = time.strftime(
+                        "%H:%M:%S,XXX",
+                        time.gmtime(int(tempsEnMs / 1000)))
+                    tempsFinSrt = tempsFinSrt.replace(
+                        "XXX",
+                        str(tempsEnMs)[-3 :])
                     # Écrit dans le fichier
                     f.write("%d\n" % (indice))
                     f.write("%s --> %s\n" % (tempsDebutSrt, tempsFinSrt))
